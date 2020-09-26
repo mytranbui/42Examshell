@@ -1,0 +1,165 @@
+Assignment name : print_memory
+Expected files : print_memory.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a function that takes (const void *addr, size_t size), and displays the memory as in the example.
+Your function must be declared as follows:
+void print_memory(const void *addr, size_t size);
+---------
+$> cat main.c
+void print_memory(const void *addr, size_t size);
+int main(void) {
+	int tab[10] = {0, 23, 150, 255, 12, 16, 21, 42};
+	print_memory(tab, sizeof(tab));
+	return (0); }
+$> gcc -Wall -Wall -Werror main.c print_memory.c && ./a.out | cat -e 0000 0000 1700 0000 9600 0000 ff00 0000 ................$
+0c00 0000 1000 0000 1500 0000 2a00 0000 ............*...$
+0000 0000 0000 0000 ........$
+
+Assignment name : brackets
+Expected files : *.c *.h
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes an undefined number of strings in arguments. For each argument, the program prints on the standard output "OK" followed by a newline if the expression is correctly bracketed, otherwise it prints "Error" followed by
+a newline.
+Symbols considered as 'brackets' are brackets '(' and ')', square brackets '[' and ']'and braces '{' and '}'. Every other symbols are simply ignored.
+An opening bracket must always be closed by the good closing bracket in the correct order. A string which not contains any bracket is considered as a correctly bracketed string.
+If there is no arguments, the program must print only a newline. Examples :
+30 of  33
+$> ./brackets '(johndoe)' | cat -e OK$
+$> ./brackets '([)]' | cat -e Error$
+$> ./brackets '' '{[(0 + 0)(1 + 1)](3*(-1)){()}}' | cat -e OK$
+OK$
+$> ./brackets | cat -e
+$ $>
+
+Assignment name : rpn_calc
+Expected files : *.c, *.h
+Allowed functions: atoi, printf, write, malloc, free
+--------------------------------------------------------------------------------
+
+Write a program that takes a string which contains an equation written in Reverse Polish notation (RPN) as its first argument, evaluates the equation, and prints the result on the standard output followed by a newline.
+Reverse Polish Notation is a mathematical notation in which every operator follows all of its operands. In RPN, every operator encountered evaluates the previous 2 operands, and the result of this operation then becomes the first of the two operands for the subsequent operator. Operands and operators must be spaced by at least one space.
+You must implement the following operators : "+", "-", "*", "/", and "%".
+If the string isn't valid or there isn't exactly one argument, you must print "Error" on the standard output followed by a newline.
+All the given operands must fit in a "int". Examples of formulas converted in RPN:
+3 + 4 >> 3 4 +
+((1 * 2) * 3) - 4 >> 1 2 * 3 * 4 - ou 3 1 2 * * 4 - 50 * (5 - (10 / 9)) >> 5 10 9 / - 50 *
+Here's how to evaluate a formula in RPN:
+12*3*4 - 23*4 -
+64 -
+2
+Or:
+312**4 - 32*4 -
+64 -
+31 of  33
+2 Examples:
+$> ./rpn_calc "1 2 * 3 * 4 +" | cat -e 10$
+$> ./rpn_calc "1 2 3 4 +" | cat -e Error$
+$> ./rpn_calc |cat -e Error$
+
+Assignment name : options
+Expected files : *.c *.h
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Ecrire un programme qui prends un nombre indéfini d'arguments pouvant être des options et qui écrit sur le sortie standard une représentation de ces options sous forme de groupes d'octets suivi d'une newline.
+Une option est un argument défini par un caractere ouvrant '-' et qui peut prendre plusieurs caractères consécutifs pouvant être : abcdefghijklmnopqrstuvwxyz
+Toutes les options sont stockées dans un seul int et chaque option représente un bit de l'int, tel que :
+	00000000 00000000 00000000 00000000 ******zy xwvutsrq ponmlkji hgfedcba
+Lancer le programme sans argument ou avec le flag '-h' activé doit afficher sur la sortie standard, un usage du programme comme montré dans les exemples.
+Une option non disponible doit renvoyer "Invalid Option" suivi d'une newline.
+Exemples :
+$>./options
+options: abcdefghijklmnopqrstuvwxyz $>./options -abc -ijk
+00000000 00000000 00000111 00000111 $>./options -z
+00000010 00000000 00000000 00000000 $>./options -abc -hijk
+options: abcdefghijklmnopqrstuvwxyz $>./options -%
+Invalid Option
+
+Assignment name : brainfuck
+Expected files : *.c, *.h
+Allowed functions: write, malloc, free
+--------------------------------------------------------------------------------
+
+Write a Brainfuck interpreter program.
+32 of  33
+The source code will be given as first parameter.
+The code will always be valid, with no more than 4096 operations. Brainfuck is a minimalist language. It consists of an array of bytes (in our case, let's say 2048 bytes) initialized to zero,
+and a pointer to its first byte.
+Every operator consists of a single character : - '>' increment the pointer ;
+- '<' decrement the pointer ;
+- '+' increment the pointed byte ;
+- '-' decrement the pointed byte ;
+- '.' print the pointed byte on standard output ;
+- '[' go to the matching ']' if the pointed byte is 0 (while start) ;
+- ']' go to the matching '[' if the pointed byte is not 0 (while end).
+
+Any other character is a comment. Examples:
+$>./brainfuck "++++++++++[>+++++++>++++++++++>+++>+<<<<-] >++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." | cat -e
+Hello World!$
+$>./brainfuck "+++++[>++++[>++++H>+++++i<<-]>>>++\n<<<<-]>>--------.>+++++.>." | cat -e Hi$
+$>./brainfuck | cat -e
+$
+
+Assignment name  : cycle_detector
+Expected files   : cycle_detector.c
+Allowed functions: malloc, free
+--------------------------------------------------------------------------------
+
+Create a function named cycle_detector that takes a const t_list *list
+as argument, and check if the given linked list contains no cycles.
+
+A cycle is defined when you go at least twice through the same link, when you
+travel inside a linked list.
+
+This function should returnw 1 if it detects a cycle inside the given linked
+list, otherwise it returns 0.
+
+This function should be prototyped like this:
+
+    int        cycle_detector(const t_list *list)
+
+The type t_list is:
+
+    typedef struct     s_list
+    {
+        int            data;
+        struct s_list  *next;
+    }                  t_list;
+
+This type will be included in a header named "list.h". You don't have to turn-in
+your "list.h", we will use ours during the evaluation.
+
+Assignment name  : biggest_pal
+Expected files   : *.c, *.h
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program named biggest_pal that takes a string as argument and prints the
+biggest palindrome included inside this string, followed by a newline.
+
+This string contains only lowercase characters.
+
+If there is two palindromes of the same length, you have to print the last one.
+
+If there is more or less than 1 argument, your program must print only a newline
+only.
+
+Exemples:
+
+$> biggest_pal "abcba"
+abcba
+$> biggest_pal "aaaaaaaaaabbcbbaaaa"
+aaaabbcbbaaaa
+$> biggest_pal "aooibdaoiwhoihwdoinzeldaisaboyobasiadlezfdsfnslk"
+zeldaisaboyobasiadlez
+$> biggest_pal "aeibaabaammaabaalek"
+aabaammaabaa
+$> biggest_pal abeb qpinqwjobo qkmnwoiq
+
+$> biggest_pal
+
+$>
